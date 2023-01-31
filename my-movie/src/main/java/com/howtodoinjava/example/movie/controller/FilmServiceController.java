@@ -50,19 +50,12 @@ public class FilmServiceController {
         return ActeurData;
     }
 
-//    @RequestMapping(value = "/findActeurByFilm/{filmTitle}", method = RequestMethod.GET)
-//    public Acteur getActeurByFilm(@PathVariable String filmTitle){
-//        Acteur acteur=null;
-//        for (Map.Entry<String, Acteur> entry : ActeurData.entrySet()) {
-//            if (entry.getValue().getFilmographie().contains(filmTitle)) {
-//                acteur= entry.getValue();
-//            }
-//        }
-//        if (acteur == null) {
-//            acteur = new Acteur("N/A","N/A",new Date(0, 0, 0),"N/A");
-//        }
-//        return acteur;
-//    }
+    @ApiOperation(value = "Delete an Acteurs", response = Iterable.class, tags = "deleteActeur")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
+    @RequestMapping(value = "/deleteActeur/{ActeurNom}", method = RequestMethod.DELETE)
+    public void deleteActeur(@PathVariable String ActeurNom){
+        ActeurData.remove(ActeurNom);
+    }
 
     @ApiOperation(value = "Get all Acteurs", response = Iterable.class, tags = "findAllFilms")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
@@ -71,7 +64,7 @@ public class FilmServiceController {
         return FilmData;
     }
 
-    @ApiOperation(value = "Get all Acteurs", response = Film.class, tags = "findFilmDetails")
+    @ApiOperation(value = "Get all movies", response = Film.class, tags = "findFilmDetails")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
     @RequestMapping(value = "/findFilmDetails/{FilmNom}", method = RequestMethod.GET)
     public Film getFilmDetails(@PathVariable String FilmNom){
@@ -80,6 +73,13 @@ public class FilmServiceController {
             film = new Film("N/A","N/A",new Date(0, 0, 0),null);
         }
         return film;
+    }
+
+    @ApiOperation(value = "delete specifique movie", response = Film.class, tags = "findFilmDetails")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
+    @RequestMapping(value = "/deleteFilm/{FilmNom}", method = RequestMethod.DELETE)
+    public void deleteFilmDetails(@PathVariable String FilmNom){
+        FilmData.remove(FilmNom);
     }
 
 }
