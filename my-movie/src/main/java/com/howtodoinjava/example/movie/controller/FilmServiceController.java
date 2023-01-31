@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
-@Api(value = "Swagger2DemoRestController", description = "REST Apis related to Acteurs and Films Entities!!!!")
+@Api(value = "Swagger2_movie_actor", description = "REST Apis related to Acteurs and Films Entities!!!!")
 @RestController
 public class FilmServiceController {
 

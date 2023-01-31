@@ -1,5 +1,9 @@
 package com.howtodoinjava.example.apigateway.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +17,14 @@ import org.springframework.web.client.RestTemplate;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
+@Api(value = "Swagger2_finder", description = "REST Apis of a finder service!!!!")
 @RestController
 public class FinderController {
 	
 	@Autowired
     RestTemplate restTemplate;
- 
+    @ApiOperation(value = "Get specifique actor", response = String.class, tags = "findActeurDetails")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
     @RequestMapping(value = "/findActeurDetails/{ActeurNom}", method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public String getActeurDetails(@PathVariable String ActeurNom)
@@ -33,6 +39,8 @@ public class FinderController {
         return ActeurNom + ": [ Acteur Details " + response+" ]";
     }
 
+    @ApiOperation(value = "Get all Acteurs", response = String.class, tags = "findAllActeur")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
     @RequestMapping(value = "/findAllActeur", method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public String getAllActeurs()
@@ -47,6 +55,8 @@ public class FinderController {
         return  "Here is the full list of actors: "+ response;
     }
 
+    @ApiOperation(value = "Get all movies", response = String.class, tags = "findAllFilms")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
     @RequestMapping(value = "/findAllFilms", method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "fallbackMethod")
     public String getAllFilms()
@@ -61,6 +71,8 @@ public class FinderController {
         return  "Here is the full list of movies: "+ response;
     }
 
+    @ApiOperation(value = "Get specifique movies", response = Iterable.class, tags = "findFilmDetails")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Suceess|OK"), @ApiResponse(code = 401, message = "not authorized!"), @ApiResponse(code = 403, message = "forbidden!!!"), @ApiResponse(code = 404, message = "not found!!!") })
     @RequestMapping(value = "/findFilmDetails/{FilmNom}", method = RequestMethod.GET)
     @HystrixCommand(fallbackMethod = "fallbackMethodFilm")
     public String getFilmDetails(@PathVariable String FilmNom)
